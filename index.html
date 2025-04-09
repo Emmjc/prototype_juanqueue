@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuanQueue - Barangay Appointment System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-blue-800 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-calendar-alt text-2xl"></i>
+                <h1 class="text-2xl font-bold">JuanQueue</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="login.html" class="hover:text-yellow-300 transition"><i class="fas fa-sign-in-alt mr-1"></i> Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Barangay Agapito Del Rosario</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Streamlining government services through our digital appointment and queuing system</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="appointment.html" class="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-6 rounded-lg text-lg transition flex items-center justify-center">
+                    <i class="fas fa-calendar-check mr-2"></i> Schedule Appointment
+                </a>
+                <a href="document.html" class="bg-white hover:bg-gray-100 text-blue-900 font-bold py-3 px-6 rounded-lg text-lg transition flex items-center justify-center">
+                    <i class="fas fa-file-alt mr-2"></i> Request Document
+                </a>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                <a href="queue.html" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition flex items-center justify-center">
+                    <i class="fas fa-users mr-2"></i> View Queue
+                </a>
+                <a href="login.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg transition flex items-center justify-center">
+                    <i class="fas fa-lock mr-2"></i> Admin Login
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <i class="fas fa-bullhorn mr-2"></i> Barangay Announcements
+            </h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-red-500 pl-4 py-2">
+                    <h3 class="font-semibold text-lg">Community Clean-up Day</h3>
+                    <p class="text-gray-600">June 15, 2023 | 7:00 AM - 12:00 PM</p>
+                    <p class="mt-1">Join us for our monthly clean-up drive at the barangay hall.</p>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-4 py-2">
+                    <h3 class="font-semibold text-lg">New ID System Implementation</h3>
+                    <p class="text-gray-600">Starting July 1, 2023</p>
+                    <p class="mt-1">All residents must register for the new barangay ID system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-calendar-alt mr-2"></i> JuanQueue
+                    </h2>
+                    <p class="mt-2">Barangay Agapito Del Rosario</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-phone-alt"></i></a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-blue-800 text-center text-sm">
+                <p>© 2023 JuanQueue. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

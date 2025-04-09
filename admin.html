@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | JuanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .sidebar-item.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+        }
+        .chart-container {
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 bg-white shadow-md">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-calendar-alt text-2xl text-blue-600"></i>
+                    <h1 class="text-xl font-bold text-gray-800">JuanQueue Admin</h1>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Barangay Agapito Del Rosario</p>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-tachometer-alt mr-3 text-blue-600"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-calendar-check mr-3 text-blue-600"></i>
+                            <span>Appointments</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">12</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-file-alt mr-3 text-blue-600"></i>
+                            <span>Document Requests</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-users mr-3 text-blue-600"></i>
+                            <span>Queue Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-chart-bar mr-3 text-blue-600"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-cog mr-3 text-blue-600"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <div class="flex items-center p-3 rounded-lg bg-blue-50">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Admin profile">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">Barangay Staff</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bell"></i>
+                            <span class="sr-only">Notifications</span>
+                        </button>
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="sr-only">Help</span>
+                        </button>
+                        <button id="logoutBtn" class="p-2 rounded-full text-gray-500 hover:text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="sr-only">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-calendar-day text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Today's Appointments</p>
+                                <p class="text-2xl font-semibold text-gray-800">24</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-file-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Pending Documents</p>
+                                <p class="text-2xl font-semibold text-gray-800">8</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Current Queue</p>
+                                <p class="text-2xl font-semibold text-gray-800">15</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Overdue Tasks</p>
+                                <p class="text-2xl font-semibold text-gray-800">3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity and Queue -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Recent Appointments -->
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-800">Recent Appointments</h3>
+                        </div>
+                        <div class="divide-y divide-gray-200">
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Barangay Clearance</p>
+                                        <p class="text-sm text-gray-500">Juan Dela Cruz - 9:30 AM</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Confirmed
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Certificate of Indigency</p>
+                                        <p class="text-sm text-gray-500">Maria Santos - 10:15 AM</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Confirmed
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Residency Certificate</p>
+                                        <p class="text-sm text-gray-500">Pedro Reyes - 11:00 AM</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Pending
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Barangay Clearance</p>
+                                        <p class="text-sm text-gray-500">Ana Torres - 1:30 PM</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Confirmed
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Health Certificate</p>
+                                        <p class="text-sm text-gray-500">Luis Garcia - 2:45 PM</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Cancelled
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 border-t border-gray-200 text-center">
+                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500">View all appointments</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Queue -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-800">Current Queue</h3>
+                        </div>
+                        <div class="p-4">
+                            <div class="bg-blue-50 rounded-lg p-4 text-center mb-4">
+                                <p class="text-sm text-gray-600 mb-1">Now Serving</p>
+                                <p class="text-3xl font-bold text-blue-800">#023</p>
+                                <p class="text-sm text-gray-600">Barangay Clearance</p>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium">#024</p>
+                                        <p class="text-xs text-gray-500">Certificate of Indigency</p>
+                                    </div>
+                                    <span class="text-sm text-gray-600">~5 min</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium">#025</p>
+                                        <p class="text-xs text-gray-500">Residency Certificate</p>
+                                    </div>
+                                    <span class="text-sm text-gray-600">~10 min</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <p class="font-medium">#026</p>
+                                        <p class="text-xs text-gray-500">Barangay Clearance</p>
+                                    </div>
+                                    <span class="text-sm text-gray-600">~15 min</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-plus mr-2"></i> Call Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document Requests and Statistics -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Pending Documents -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-800">Pending Documents</h3>
+                        </div>
+                        <div class="divide-y divide-gray-200">
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Barangay Clearance</p>
+                                        <p class="text-sm text-gray-500">Requested by: Juan Dela Cruz</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">2 days ago</span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Certificate of Indigency</p>
+                                        <p class="text-sm text-gray-500">Requested by: Maria Santos</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 hover:bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Residency Certificate</p>
+                                        <p class="text-sm text-gray-500">Requested by: Pedro Reyes</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">5 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 border-t border-gray-200 text-center">
+                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500">View all documents</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistics -->
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-800">Service Statistics</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-500 mb-2">Most Requested Services</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="flex justify-between text-sm mb-1">
+                                                <span>Barangay Clearance</span>
+                                                <span class="font-medium">45%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-sm mb-1">
+                                                <span>Certificate of Indigency</span>
+                                                <span class="font-medium">30%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-green-600 h-2 rounded-full" style="width: 30%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-sm mb-1">
+                                                <span>Residency Certificate</span>
+                                                <span class="font-medium">15%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-yellow-600 h-2 rounded-full" style="width: 15%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between text-sm mb-1">
+                                                <span>Others</span>
+                                                <span class="font-medium">10%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                                <div class="bg-red-600 h-2 rounded-full" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-500 mb-2">Daily Averages</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Appointments per day</p>
+                                            <p class="text-2xl font-bold text-gray-800">24</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500">Document requests</p>
+                                            <p class="text-2xl font-bold text-gray-800">12</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500">Average wait time</p>
+                                            <p class="text-2xl font-bold text-gray-800">15 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container bg-gray-50 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-sm font-medium text-gray-500">Weekly Activity</h4>
+                                    <select class="text-sm border border-gray-300 rounded-md px-2 py-1">
+                                        <option>This Week</option>
+                                        <option>Last Week</option>
+                                        <option>This Month</option>
+                                    </select>
+                                </div>
+                                <div class="h-48 flex items-end space-x-2" id="weeklyChart">
+                                    <!-- Chart bars will be generated by JavaScript -->
+                                </div>
+                                <script>
+                                    // Mock data for weekly activity
+                                    const weeklyData = [
+                                        { day: 'Mon', appointments: 18, color: 'bg-blue-200' },
+                                        { day: 'Tue', appointments: 32, color: 'bg-blue-300' },
+                                        { day: 'Wed', appointments: 45, color: 'bg-blue-400' },
+                                        { day: 'Thu', appointments: 52, color: 'bg-blue-500' },
+                                        { day: 'Fri', appointments: 38, color: 'bg-blue-600' },
+                                        { day: 'Sat', appointments: 25, color: 'bg-blue-400' },
+                                        { day: 'Sun', appointments: 12, color: 'bg-blue-200' }
+                                    ];
+
+                                    const maxAppointments = Math.max(...weeklyData.map(d => d.appointments));
+                                    const chartContainer = document.getElementById('weeklyChart');
+                                    
+                                    weeklyData.forEach(data => {
+                                        const heightPercent = (data.appointments / maxAppointments) * 100;
+                                        const bar = document.createElement('div');
+                                        bar.className = 'flex-1 flex flex-col items-center';
+                                        bar.innerHTML = `
+                                            <div class="w-full ${data.color} rounded-t-sm" style="height: ${heightPercent}%"></div>
+                                            <p class="text-xs text-gray-500 mt-1">${data.day}</p>
+                                            <p class="text-xs font-medium mt-1">${data.appointments}</p>
+                                        `;
+                                        chartContainer.appendChild(bar);
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if(confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.sidebar-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Simulate calling next in queue
+        document.querySelector('.bg-blue-600').addEventListener('click', function() {
+            const nowServing = document.querySelector('.bg-blue-50 p.text-3xl');
+            const currentNumber = parseInt(nowServing.textContent.substring(1));
+            nowServing.textContent = `#${(currentNumber + 1).toString().padStart(3, '0')}`;
+            
+            // Update the queue list
+            const queueItems = document.querySelectorAll('.bg-gray-50');
+            if (queueItems.length > 0) {
+                queueItems[0].remove();
+                
+                // Update remaining wait times
+                document.querySelectorAll('.bg-gray-50 span.text-sm').forEach((item, index) => {
+                    const minutes = Math.max(0, parseInt(item.textContent.match(/\d+/)[0]) - 5);
+                    item.textContent = minutes > 0 ? `~${minutes} min` : 'Now';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Document | JuanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .file-upload {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        .file-upload:hover {
+            border-color: #4299e1;
+        }
+        .file-upload.dragover {
+            border-color: #4299e1;
+            background-color: #ebf8ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-blue-800 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-calendar-alt text-2xl"></i>
+                <h1 class="text-2xl font-bold">JuanQueue</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="hover:text-yellow-300 transition"><i class="fas fa-home mr-1"></i> Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                    <i class="fas fa-file-alt mr-2"></i> Request Document
+                </h2>
+                
+                <!-- Document Selection -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Select Document Type</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Document Cards -->
+                        <div class="document-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-id-card text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Barangay Clearance</h4>
+                                    <p class="text-gray-600 text-sm">Required for business permits, employment, and other transactions</p>
+                                    <div class="mt-2 text-xs text-blue-600">
+                                        <i class="fas fa-info-circle mr-1"></i> Requires valid ID and proof of residence
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="document-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-file-certificate text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Certificate of Indigency</h4>
+                                    <p class="text-gray-600 text-sm">For availing government assistance programs</p>
+                                    <div class="mt-2 text-xs text-blue-600">
+                                        <i class="fas fa-info-circle mr-1"></i> Requires barangay ID and income certification
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="document-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
+                            <div class="flex items-start">
+                                <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-home text-yellow-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Residency Certificate</h4>
+                                    <p class="text-gray-600 text-sm">Proof of residence in the barangay</p>
+                                    <div class="mt-2 text-xs text-blue-600">
+                                        <i class="fas fa-info-circle mr-1"></i> Requires utility bill or lease agreement
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="document-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-file-medical text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Health Certificate</h4>
+                                    <p class="text-gray-600 text-sm">For food handlers and health-related employment</p>
+                                    <div class="mt-2 text-xs text-blue-600">
+                                        <i class="fas fa-info-circle mr-1"></i> Requires medical examination
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information Form -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Personal Information</h3>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="docFullName">Full Name</label>
+                                <input type="text" id="docFullName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Juan Dela Cruz">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="docPhone">Phone Number</label>
+                                <input type="tel" id="docPhone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="09123456789">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1" for="docAddress">Complete Address</label>
+                            <textarea id="docAddress" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="House No., Street, Barangay, City"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1" for="docPurpose">Purpose of Request</label>
+                            <textarea id="docPurpose" rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Please specify why you need this document"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Upload -->
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Upload Required Documents</h3>
+                    <p class="text-gray-600 mb-4">Please upload scanned copies or clear photos of the required documents.</p>
+                    
+                    <div id="uploadArea" class="file-upload rounded-lg p-8 text-center cursor-pointer mb-4">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-500 font-medium">Drag & drop files here or click to browse</p>
+                        <p class="text-gray-400 text-sm mt-1">Supports JPG, PNG, PDF (Max 5MB each)</p>
+                        <input type="file" id="fileInput" class="hidden" multiple>
+                    </div>
+                    
+                    <div id="fileList" class="space-y-2 hidden">
+                        <h4 class="font-medium text-gray-700">Selected Files:</h4>
+                        <ul id="fileItems" class="space-y-2"></ul>
+                    </div>
+                </div>
+
+                <!-- Terms and Submit -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="mb-6">
+                        <label class="flex items-start">
+                            <input type="checkbox" class="mt-1 rounded text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2 text-gray-700">
+                                I certify that all information provided is true and correct. I understand that falsifying information may result in penalties under <a href="#" class="text-blue-600 hover:underline">Barangay Ordinance No. 2021-001</a>.
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <button id="submitRequest" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-paper-plane mr-2"></i> Submit Request
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-calendar-alt mr-2"></i> JuanQueue
+                    </h2>
+                    <p class="mt-2">Barangay Agapito Del Rosario</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-phone-alt"></i></a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-blue-800 text-center text-sm">
+                <p>© 2023 JuanQueue. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Confirmation Modal (Hidden by default) -->
+    <div id="docConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <i class="fas fa-check text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mt-3">Request Submitted!</h3>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-500">Your document request has been received. You'll be notified via SMS once your document is ready for pickup.</p>
+                    <div class="mt-4 bg-blue-50 p-4 rounded-lg">
+                        <p class="font-semibold">Reference Number: <span class="text-blue-600">JQ-DOC-2023-0892</span></p>
+                        <p class="text-sm mt-1">Processing time: 3-5 working days</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5">
+                <button id="closeDocModal" type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Document card selection
+        document.querySelectorAll('.document-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Reset all cards
+                document.querySelectorAll('.document-card').forEach(c => {
+                    c.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200');
+                });
+                
+                // Set selected card
+                this.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
+            });
+        });
+
+        // File upload functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const fileItems = document.getElementById('fileItems');
+
+        // Click on upload area
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            uploadArea.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            uploadArea.classList.remove('dragover');
+        }
+
+        uploadArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                fileItems.innerHTML = '';
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex items-center justify-between bg-gray-50 p-2 rounded';
+                    
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'flex items-center';
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-file text-gray-500 mr-2';
+                    
+                    const fileName = document.createElement('span');
+                    fileName.className = 'text-sm text-gray-700 truncate max-w-xs';
+                    fileName.textContent = file.name;
+                    
+                    const fileSize = document.createElement('span');
+                    fileSize.className = 'text-xs text-gray-500 ml-2';
+                    fileSize.textContent = formatFileSize(file.size);
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'text-red-500 hover:text-red-700 ml-2';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.addEventListener('click', () => {
+                        listItem.remove();
+                        if (fileItems.children.length === 0) {
+                            fileList.classList.add('hidden');
+                        }
+                    });
+                    
+                    fileInfo.appendChild(icon);
+                    fileInfo.appendChild(fileName);
+                    fileInfo.appendChild(fileSize);
+                    listItem.appendChild(fileInfo);
+                    listItem.appendChild(removeBtn);
+                    fileItems.appendChild(listItem);
+                }
+                
+                fileList.classList.remove('hidden');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Form submission
+        document.getElementById('submitRequest').addEventListener('click', function() {
+            document.getElementById('docConfirmationModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeDocModal').addEventListener('click', function() {
+            document.getElementById('docConfirmationModal').classList.add('hidden');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
