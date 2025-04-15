@@ -176,6 +176,15 @@
                     <button id="submitRequest" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
                         <i class="fas fa-paper-plane mr-2"></i> Submit Request
                     </button>
+
+                    <!-- Schedule Appointment Button (Initially Hidden) -->
+                    <div id="appointmentButtonDiv" class="mt-6 hidden">
+                        <a href="appointment.html">
+                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                <i class="fas fa-calendar-check mr-2"></i> Schedule Your Appointment Now
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -239,6 +248,13 @@
                 // Set selected card
                 this.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
             });
+        });
+
+         // Add event listener to the submit button
+        document.getElementById('submitRequest').addEventListener('click', function(e) {
+            e.preventDefault();  // Prevent the form from actually submitting
+            // Show the appointment button after submit
+            document.getElementById('appointmentButtonDiv').classList.remove('hidden');
         });
 
         // File upload functionality
@@ -347,7 +363,7 @@
 
         document.getElementById('closeDocModal').addEventListener('click', function() {
             document.getElementById('docConfirmationModal').classList.add('hidden');
-            window.location.href = 'index.html';
+        
         });
     </script>
 </body>

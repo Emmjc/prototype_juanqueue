@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Queue Kiosk | JuanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .kiosk-screen {
+            min-height: 80vh;
+        }
+        .queue-number {
+            font-size: 5rem;
+            line-height: 1;
+        }
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .input-large {
+            font-size: 1.5rem;
+            padding: 1.5rem;
+            height: auto;
+        }
+        .btn-large {
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-blue-800 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-ticket-alt text-2xl"></i>
+                <h1 class="text-2xl font-bold">JuanQueue Kiosk</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="hover:text-yellow-300 transition"><i class="fas fa-home mr-1"></i> Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Progress Steps -->
+            <div class="bg-gray-100 p-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex flex-col items-center flex-1">
+                        <div id="step1-indicator" class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
+                        <span class="text-sm mt-1 text-blue-600 font-medium">Enter Reference</span>
+                    </div>
+                    <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                    <div class="flex flex-col items-center flex-1">
+                        <div id="step2-indicator" class="w-12 h-12 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold">2</div>
+                        <span class="text-sm mt-1 text-gray-500">Document Status</span>
+                    </div>
+                    <div class="flex-1 h-1 bg-gray-300 mx-2"></div>
+                    <div class="flex flex-col items-center flex-1">
+                        <div id="step3-indicator" class="w-12 h-12 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold">3</div>
+                        <span class="text-sm mt-1 text-gray-500">Queue Number</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Enter Reference Number -->
+            <div id="step1" class="kiosk-screen p-8 flex flex-col justify-center">
+                <div class="text-center mb-8">
+                    <i class="fas fa-search text-blue-600 text-6xl mb-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Enter Your Reference Number</h2>
+                    <p class="text-gray-600 text-xl">Please enter the reference number you received during your appointment request.</p>
+                </div>
+                
+                <div class="max-w-xl mx-auto w-full">
+                    <div class="mb-6">
+                        <label for="referenceNumber" class="block text-gray-700 font-medium mb-2 text-xl">Reference Number</label>
+                        <input type="text" id="referenceNumber" class="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 input-large" placeholder="e.g. JQ-2023-1234">
+                    </div>
+                    
+                    <div class="flex justify-center mt-8">
+                        <button id="nextToStep2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg transition btn-large">
+                            Check Status <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Document Status -->
+            <div id="step2" class="kiosk-screen p-8 hidden">
+                <div class="text-center mb-8">
+                    <i class="fas fa-file-alt text-green-600 text-6xl mb-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Document Status</h2>
+                    <p class="text-gray-600 text-xl">Here's the status of your requested document.</p>
+                </div>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="info-card bg-white border-2 border-green-200 rounded-lg p-6 mb-6 shadow-sm">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-4 rounded-full mr-4">
+                                <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-2xl text-gray-800 mb-2">Ready for Pickup</h3>
+                                <p class="text-gray-600 text-lg">Your document is ready to be claimed at the barangay office.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card bg-white border-2 border-blue-200 rounded-lg p-6 mb-8 shadow-sm">
+                        <h3 class="font-bold text-xl text-gray-800 mb-4">Request Summary</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Reference Number:</span>
+                                <span class="font-medium" id="display-ref">JQ-2023-0567</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Service Type:</span>
+                                <span class="font-medium" id="display-service">Barangay Clearance</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Request Date:</span>
+                                <span class="font-medium" id="display-date">June 15, 2023</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Requested By:</span>
+                                <span class="font-medium" id="display-name">Juan Dela Cruz</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-8">
+                        <button id="backToStep1" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition btn-large">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="nextToStep3" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition btn-large">
+                            Get Queue Number <i class="fas fa-ticket-alt ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Queue Number -->
+            <div id="step3" class="kiosk-screen p-8 hidden">
+                <div class="text-center mb-8">
+                    <i class="fas fa-ticket-alt text-yellow-600 text-6xl mb-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Your Queue Number</h2>
+                    <p class="text-gray-600 text-xl">Please wait for your number to be called.</p>
+                </div>
+                
+                <div class="max-w-xl mx-auto">
+                    <div class="bg-yellow-100 border-2 border-yellow-300 rounded-lg p-8 text-center mb-8">
+                        <div class="queue-number font-bold text-yellow-700 mb-2" id="queue-number">A-15</div>
+                        <div class="text-xl text-gray-700">Please proceed to</div>
+                        <div class="text-2xl font-bold text-blue-800">Window 3</div>
+                    </div>
+                    
+                    <div class="info-card bg-white border-2 border-blue-200 rounded-lg p-6 mb-8 shadow-sm">
+                        <h3 class="font-bold text-xl text-gray-800 mb-4">Your Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Reference Number:</span>
+                                <span class="font-medium" id="queue-ref">JQ-2023-0567</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Name:</span>
+                                <span class="font-medium" id="queue-name">Juan Dela Cruz</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Service:</span>
+                                <span class="font-medium" id="queue-service">Barangay Clearance</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-8">
+                        <button id="newRequest" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition btn-large">
+                            <i class="fas fa-redo mr-2"></i> Start New Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-ticket-alt mr-2"></i> JuanQueue Kiosk
+                    </h2>
+                    <p class="mt-2">Barangay Agapito Del Rosario</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-phone-alt"></i></a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-blue-800 text-center text-sm">
+                <p>© 2023 JuanQueue. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data - in a real app this would come from a database
+        const sampleData = {
+            "JQ-2023-0567": {
+                name: "Juan Dela Cruz",
+                service: "Barangay Clearance",
+                date: "June 15, 2023",
+                status: "Ready for Pickup",
+                queueNumber: "#024"
+            },
+            "JQ-2023-0789": {
+                name: "Maria Santos",
+                service: "Certificate of Indigency",
+                date: "June 16, 2023",
+                status: "Ready for Pickup",
+                queueNumber: "#025"
+            }
+        };
+
+        // DOM Elements
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const referenceInput = document.getElementById('referenceNumber');
+        const nextToStep2Btn = document.getElementById('nextToStep2');
+        const backToStep1Btn = document.getElementById('backToStep1');
+        const nextToStep3Btn = document.getElementById('nextToStep3');
+        const newRequestBtn = document.getElementById('newRequest');
+
+        // Progress indicators
+        const step1Indicator = document.getElementById('step1-indicator');
+        const step2Indicator = document.getElementById('step2-indicator');
+        const step3Indicator = document.getElementById('step3-indicator');
+
+        // Display fields
+        const displayRef = document.getElementById('display-ref');
+        const displayService = document.getElementById('display-service');
+        const displayDate = document.getElementById('display-date');
+        const displayName = document.getElementById('display-name');
+        const queueNumber = document.getElementById('queue-number');
+        const queueRef = document.getElementById('queue-ref');
+        const queueName = document.getElementById('queue-name');
+        const queueService = document.getElementById('queue-service');
+
+        // Step 1 to Step 2
+        nextToStep2Btn.addEventListener('click', function() {
+            const refNumber = referenceInput.value.trim();
+            
+            if (!refNumber) {
+                alert('Please enter your reference number');
+                return;
+            }
+            
+            // Check if reference exists (in a real app, this would be an API call)
+            if (sampleData[refNumber]) {
+                const data = sampleData[refNumber];
+                
+                // Update display fields
+                displayRef.textContent = refNumber;
+                displayService.textContent = data.service;
+                displayDate.textContent = data.date;
+                displayName.textContent = data.name;
+                
+                // Update queue display fields (for step 3)
+                queueRef.textContent = refNumber;
+                queueName.textContent = data.name;
+                queueService.textContent = data.service;
+                queueNumber.textContent = data.queueNumber;
+                
+                // Show step 2
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                
+                // Update progress indicators
+                step1Indicator.classList.replace('bg-blue-600', 'bg-green-500');
+                step2Indicator.classList.replace('bg-gray-300', 'bg-blue-600');
+                step2Indicator.classList.replace('text-gray-600', 'text-white');
+                document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+            } else {
+                alert('Reference number not found. Please check and try again.');
+            }
+        });
+
+        // Step 2 back to Step 1
+        backToStep1Btn.addEventListener('click', function() {
+            step2.classList.add('hidden');
+            step1.classList.remove('hidden');
+            
+            // Update progress indicators
+            step1Indicator.classList.replace('bg-green-500', 'bg-blue-600');
+            step2Indicator.classList.replace('bg-blue-600', 'bg-gray-300');
+            step2Indicator.classList.replace('text-white', 'text-gray-600');
+            document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
+        });
+
+        // Step 2 to Step 3
+        nextToStep3Btn.addEventListener('click', function() {
+            step2.classList.add('hidden');
+            step3.classList.remove('hidden');
+            
+            // Update progress indicators
+            step2Indicator.classList.replace('bg-blue-600', 'bg-green-500');
+            step3Indicator.classList.replace('bg-gray-300', 'bg-blue-600');
+            step3Indicator.classList.replace('text-gray-600', 'text-white');
+            document.querySelectorAll('.flex-col')[2].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+        });
+
+        // Start new request (back to Step 1)
+        newRequestBtn.addEventListener('click', function() {
+            step3.classList.add('hidden');
+            step1.classList.remove('hidden');
+            referenceInput.value = '';
+            
+            // Reset progress indicators
+            step1Indicator.classList.replace('bg-green-500', 'bg-blue-600');
+            step2Indicator.classList.replace('bg-green-500', 'bg-gray-300');
+            step2Indicator.classList.replace('text-white', 'text-gray-600');
+            step3Indicator.classList.replace('bg-blue-600', 'bg-gray-300');
+            step3Indicator.classList.replace('text-white', 'text-gray-600');
+            
+            document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
+            document.querySelectorAll('.flex-col')[2].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
+        });
+
+        // Make input focused on load and allow Enter key to submit
+        referenceInput.focus();
+        referenceInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                nextToStep2Btn.click();
+            }
+        });
+    </script>
+</body>
+</html>
