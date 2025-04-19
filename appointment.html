@@ -13,6 +13,9 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
+        .reference-input {
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -44,84 +47,93 @@
                     <div class="flex justify-between items-center mb-2">
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
-                            <span class="text-sm mt-1 text-blue-600 font-medium">Service</span>
+                            <span class="text-sm mt-1 text-blue-600 font-medium">Reference</span>
                         </div>
                         <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold">2</div>
-                            <span class="text-sm mt-1 text-gray-500">Date & Time</span>
+                            <span class="text-sm mt-1 text-gray-500">Service</span>
                         </div>
                         <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold">3</div>
+                            <span class="text-sm mt-1 text-gray-500">Date & Time</span>
+                        </div>
+                        <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold">4</div>
                             <span class="text-sm mt-1 text-gray-500">Details</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service Selection -->
+                <!-- Reference Number Verification -->
                 <div id="step1">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Select Service Type</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Service Cards -->
-                        <div class="service-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
-                            <div class="flex items-start">
-                                <div class="bg-blue-100 p-3 rounded-full mr-4">
-                                    <i class="fas fa-id-card text-blue-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg">Barangay Clearance</h4>
-                                    <p class="text-gray-600 text-sm">Required for business permits, employment, and other transactions</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="service-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
-                            <div class="flex items-start">
-                                <div class="bg-red-100 p-3 rounded-full mr-4">
-                                    <i class="fas fa-file-certificate text-red-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg">Certificate of Indigency</h4>
-                                    <p class="text-gray-600 text-sm">For availing government assistance programs</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="service-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
-                            <div class="flex items-start">
-                                <div class="bg-yellow-100 p-3 rounded-full mr-4">
-                                    <i class="fas fa-home text-yellow-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg">Residency Certificate</h4>
-                                    <p class="text-gray-600 text-sm">Proof of residence in the barangay</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="service-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer transition duration-300 hover:border-blue-400">
-                            <div class="flex items-start">
-                                <div class="bg-green-100 p-3 rounded-full mr-4">
-                                    <i class="fas fa-hand-holding-heart text-green-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg">Social Welfare Services</h4>
-                                    <p class="text-gray-600 text-sm">Assistance for senior citizens, PWDs, and indigents</p>
-                                </div>
-                            </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Enter Your Reference Number</h3>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2" for="referenceNumber">Reference Number</label>
+                        <input type="text" id="referenceNumber" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 reference-input" placeholder="JQ-2023-XXXX">
+                        <p class="text-sm text-gray-500 mt-1">Please enter the reference number provided during your document application.</p>
+                        <div id="referenceError" class="text-red-600 text-sm mt-2 hidden">
+                            <i class="fas fa-exclamation-circle mr-1"></i> Invalid reference number. Please try again.
                         </div>
                     </div>
 
                     <div class="mt-8 flex justify-end">
                         <button id="nextStep1" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
-                            Next <i class="fas fa-arrow-right ml-2"></i>
+                            Verify <i class="fas fa-check ml-2"></i>
                         </button>
                     </div>
                 </div>
 
+                                <!-- Service Confirmation (Updated step2) -->
+                                <div id="step2" class="hidden">
+                                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Service Type Confirmation</h3>
+                                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-info-circle text-blue-500 text-xl"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm text-blue-700">
+                                                    You are scheduling an appointment for: <strong id="serviceTypeDisplay">Barangay Clearance</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+                                        <div class="flex items-start">
+                                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                                <i class="fas fa-id-card text-blue-600 text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-lg" id="serviceTitle">Barangay Clearance</h4>
+                                                <p class="text-gray-600 text-sm" id="serviceDescription">Required for business permits, employment, and other transactions</p>
+                                                <div class="mt-3">
+                                                    <p class="text-sm font-medium text-gray-700">Requirements:</p>
+                                                    <ul class="text-sm text-gray-600 list-disc pl-5 mt-1">
+                                                        <li>Valid ID (Original and Photocopy)</li>
+                                                        <li>Proof of Residence (Utility Bill, etc.)</li>
+                                                        <li>Application Form (Available at the Barangay Hall)</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="flex justify-between mt-8">
+                                        <button id="backStep2" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                                            <i class="fas fa-arrow-left mr-2"></i> Back
+                                        </button>
+                                        <button id="nextStep2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                            Next <i class="fas fa-arrow-right ml-2"></i>
+                                        </button>
+                                    </div>
+                                </div>                
+
                 <!-- Date & Time Selection (Hidden by default) -->
-                <div id="step2" class="hidden">
+                <div id="step3" class="hidden">
                     <h3 class="text-xl font-semibold mb-4 text-gray-800">Select Date & Time</h3>
                     <div class="mb-6">
                         <label class="block text-gray-700 font-medium mb-2" for="appointmentDate">Date</label>
@@ -141,50 +153,50 @@
                     </div>
 
                     <div class="flex justify-between mt-8">
-                        <button id="backStep2" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                        <button id="backStep3" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
                             <i class="fas fa-arrow-left mr-2"></i> Back
                         </button>
-                        <button id="nextStep2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <button id="nextStep3" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
                             Next <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Personal Details (Hidden by default) -->
-                <div id="step3" class="hidden">
+                <div id="step4" class="hidden">
                     <h3 class="text-xl font-semibold mb-4 text-gray-800">Personal Information</h3>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-gray-700 font-medium mb-1" for="fullName">Full Name</label>
-                            <input type="text" id="fullName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Juan Dela Cruz">
+                            <input type="text" id="fullName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Juan Dela Cruz" readonly>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-1" for="email">Email Address</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="juan@example.com">
+                                <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="juan@example.com" readonly>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-1" for="phone">Phone Number</label>
-                                <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="09123456789">
+                                <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="09123456789" readonly>
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-gray-700 font-medium mb-1" for="address">Complete Address</label>
-                            <textarea id="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="House No., Street, Barangay, City"></textarea>
+                            <textarea id="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="House No., Street, Barangay, City" readonly></textarea>
                         </div>
                         
                         <div class="pt-2">
                             <label class="flex items-center">
-                                <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500">
+                                <input type="checkbox" class="rounded text-blue-600 focus:ring-blue-500" required>
                                 <span class="ml-2 text-gray-700">I agree to the <a href="#" class="text-blue-600 hover:underline">terms and conditions</a></span>
                             </label>
                         </div>
                     </div>
 
                     <div class="flex justify-between mt-8">
-                        <button id="backStep3" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                        <button id="backStep4" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
                             <i class="fas fa-arrow-left mr-2"></i> Back
                         </button>
                         <button id="submitAppointment" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition">
@@ -229,7 +241,7 @@
                 <div class="mt-2">
                     <p class="text-sm text-gray-500">Your appointment has been successfully scheduled. A confirmation has been sent to your email.</p>
                     <div class="mt-4 bg-blue-50 p-4 rounded-lg">
-                        <p class="font-semibold">Reference Number: <span class="text-blue-600">JQ-2023-0567</span></p>
+                        <p class="font-semibold">Reference Number: <span id="displayReferenceNumber" class="text-blue-600">JQ-2023-1002</span></p>
                         <p class="text-sm mt-1">Please bring this number when you visit the barangay hall.</p>
                     </div>
                 </div>
@@ -243,17 +255,122 @@
     </div>
 
     <script>
-        // Simple multi-step form functionality
+        // Mock database of valid reference numbers and user data
+        const mockDatabase = {
+            "JQ-2023-1001": {
+                fullName: "Maria Santos",
+                email: "maria.santos@example.com",
+                phone: "09123456789",
+                address: "123 Main Street, Barangay Agapito Del Rosario",
+                serviceType: "Barangay Clearance",
+                serviceDetails: {
+                    title: "Barangay Clearance",
+                    description: "Required for business permits, employment, and other transactions",
+                    requirements: [
+                        "Valid ID (Original and Photocopy)",
+                        "Proof of Residence (Utility Bill, etc.)",
+                        "Application Form (Available at the Barangay Hall)"
+                    ]
+                }
+            },
+            "JQ-2023-1002": {
+                fullName: "Juan Dela Cruz",
+                email: "juan.delacruz@example.com",
+                phone: "09187654321",
+                address: "456 Oak Avenue, Barangay Agapito Del Rosario",
+                serviceType: "Certificate of Indigency",
+                serviceDetails: {
+                    title: "Certificate of Indigency",
+                    description: "For availing government assistance programs",
+                    requirements: [
+                        "Valid ID (Original and Photocopy)",
+                        "Proof of Income or No Income",
+                        "Barangay Certification"
+                    ]
+                }
+            },
+            "JQ-2023-1003": {
+                fullName: "Pedro Reyes",
+                email: "pedro.reyes@example.com",
+                phone: "09223344556",
+                address: "789 Pine Road, Barangay Agapito Del Rosario",
+                serviceType: "Residency Certificate",
+                serviceDetails: {
+                    title: "Residency Certificate",
+                    description: "Proof of residence in the barangay",
+                    requirements: [
+                        "Valid ID (Original and Photocopy)",
+                        "Proof of Residence (at least 6 months)",
+                        "Barangay Clearance"
+                    ]
+                }
+            },
+            "JQ-2023-1004": {
+                fullName: "Ana Lopez",
+                email: "ana.lopez@example.com",
+                phone: "09334455667",
+                address: "321 Elm Street, Barangay Agapito Del Rosario",
+                serviceType: "Social Welfare Services",
+                serviceDetails: {
+                    title: "Social Welfare Services",
+                    description: "Assistance for senior citizens, PWDs, and indigents",
+                    requirements: [
+                        "Valid ID (Original and Photocopy)",
+                        "Proof of Status (PWD ID, Senior Citizen ID, etc.)",
+                        "Barangay Certification"
+                    ]
+                }
+            }
+        };
+
+        // Reference number verification
         document.getElementById('nextStep1').addEventListener('click', function() {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
+            const referenceNumber = document.getElementById('referenceNumber').value.trim().toUpperCase();
+            const errorElement = document.getElementById('referenceError');
             
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
-            document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('text-gray-600', 'text-white');
-            document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+            if (mockDatabase[referenceNumber]) {
+                // Valid reference number - proceed to next step
+                errorElement.classList.add('hidden');
+                
+                // Fill in the user details from the mock database
+                const userData = mockDatabase[referenceNumber];
+                document.getElementById('fullName').value = userData.fullName;
+                document.getElementById('email').value = userData.email;
+                document.getElementById('phone').value = userData.phone;
+                document.getElementById('address').value = userData.address;
+                
+                // Set the service type information
+                document.getElementById('serviceTypeDisplay').textContent = userData.serviceType;
+                document.getElementById('serviceTitle').textContent = userData.serviceDetails.title;
+                document.getElementById('serviceDescription').textContent = userData.serviceDetails.description;
+                
+                // Update requirements list
+                const requirementsList = document.querySelector('#step2 ul');
+                requirementsList.innerHTML = '';
+                userData.serviceDetails.requirements.forEach(req => {
+                    const li = document.createElement('li');
+                    li.textContent = req;
+                    requirementsList.appendChild(li);
+                });
+                
+                // Set the reference number in the confirmation modal
+                document.getElementById('displayReferenceNumber').textContent = referenceNumber;
+                
+                // Show next step
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                
+                // Update progress steps
+                document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
+                document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('text-gray-600', 'text-white');
+                document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+            } else {
+                // Invalid reference number - show error
+                errorElement.classList.remove('hidden');
+            }
         });
 
+        // Navigation between steps
         document.getElementById('backStep2').addEventListener('click', function() {
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step1').classList.remove('hidden');
@@ -284,7 +401,33 @@
             document.querySelectorAll('.flex-col')[2].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
         });
 
+        document.getElementById('nextStep3').addEventListener('click', function() {
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.remove('hidden');
+            
+            // Update progress steps
+            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
+            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('text-gray-600', 'text-white');
+            document.querySelectorAll('.flex-col')[3].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
+        });
+
+        document.getElementById('backStep4').addEventListener('click', function() {
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+            
+            // Update progress steps
+            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('bg-blue-600', 'bg-gray-200');
+            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('text-white', 'text-gray-600');
+            document.querySelectorAll('.flex-col')[3].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
+        });
+
         document.getElementById('submitAppointment').addEventListener('click', function() {
+            // Check if terms are agreed
+            if (!document.querySelector('#step4 input[type="checkbox"]').checked) {
+                alert('Please agree to the terms and conditions');
+                return;
+            }
+            
             document.getElementById('confirmationModal').classList.remove('hidden');
         });
 
@@ -320,6 +463,13 @@
                 this.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
             });
         });
+
+        // Set minimum date for appointment (today + 1 day)
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const minDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('appointmentDate').setAttribute('min', minDate);
     </script>
 </body>
 </html>
