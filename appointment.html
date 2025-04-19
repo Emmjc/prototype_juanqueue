@@ -18,12 +18,13 @@
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 flex flex-col min-h-screen">
     <!-- Header -->
-    <header class="bg-blue-800 text-white shadow-md">
+    <header class="bg-blue-800 text-white shadow-md ">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <i class="fas fa-calendar-alt text-2xl"></i>
+                <!-- <i class="fas fa-calendar-alt text-2xl"></i> -->
+                 <img src="assets/juanq.png" alt="JuanQueue Logo" class="h-12 w-12 object-contain">
                 <h1 class="text-2xl font-bold">JuanQueue</h1>
             </div>
             <nav>
@@ -35,7 +36,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 flex-grow relative">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
@@ -208,27 +209,27 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h2 class="text-xl font-bold flex items-center">
-                        <i class="fas fa-calendar-alt mr-2"></i> JuanQueue
-                    </h2>
-                    <p class="mt-2">Barangay Agapito Del Rosario</p>
-                </div>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope"></i></a>
-                    <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-phone-alt"></i></a>
-                </div>
+<!-- Footer -->
+<footer class="bg-blue-900 text-white py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-xl font-bold flex items-center">
+                    <img src="assets/juanq.png" alt="JuanQueue Logo" class="h-12 w-12 object-contain"> JuanQueue
+                </h2>
+                <p class="mt-2">Barangay Agapito Del Rosario</p>
             </div>
-            <div class="mt-6 pt-6 border-t border-blue-800 text-center text-sm">
-                <p>© 2023 JuanQueue. All rights reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="hover:text-yellow-300 transition"><i class="fas fa-phone-alt"></i></a>
             </div>
         </div>
-    </footer>
+        <div class="mt-6 pt-6 border-t border-blue-800 text-center text-sm">
+            <p>© 2025 JuanQnect. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
     <!-- Confirmation Modal (Hidden by default) -->
     <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
@@ -323,103 +324,108 @@
             }
         };
 
-        // Reference number verification
-        document.getElementById('nextStep1').addEventListener('click', function() {
-            const referenceNumber = document.getElementById('referenceNumber').value.trim().toUpperCase();
-            const errorElement = document.getElementById('referenceError');
-            
-            if (mockDatabase[referenceNumber]) {
-                // Valid reference number - proceed to next step
-                errorElement.classList.add('hidden');
-                
-                // Fill in the user details from the mock database
-                const userData = mockDatabase[referenceNumber];
-                document.getElementById('fullName').value = userData.fullName;
-                document.getElementById('email').value = userData.email;
-                document.getElementById('phone').value = userData.phone;
-                document.getElementById('address').value = userData.address;
-                
-                // Set the service type information
-                document.getElementById('serviceTypeDisplay').textContent = userData.serviceType;
-                document.getElementById('serviceTitle').textContent = userData.serviceDetails.title;
-                document.getElementById('serviceDescription').textContent = userData.serviceDetails.description;
-                
-                // Update requirements list
-                const requirementsList = document.querySelector('#step2 ul');
-                requirementsList.innerHTML = '';
-                userData.serviceDetails.requirements.forEach(req => {
-                    const li = document.createElement('li');
-                    li.textContent = req;
-                    requirementsList.appendChild(li);
-                });
-                
-                // Set the reference number in the confirmation modal
-                document.getElementById('displayReferenceNumber').textContent = referenceNumber;
-                
-                // Show next step
-                document.getElementById('step1').classList.add('hidden');
-                document.getElementById('step2').classList.remove('hidden');
-                
-                // Update progress steps
-                document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
-                document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('text-gray-600', 'text-white');
-                document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
-            } else {
-                // Invalid reference number - show error
-                errorElement.classList.remove('hidden');
-            }
-        });
+        // Helper function to update progress steps
+function updateProgressSteps(currentStep) {
+    const progressSteps = document.querySelectorAll('.flex.justify-between.items-center.mb-2 .flex-col');
+    
+    progressSteps.forEach((step, index) => {
+        const circle = step.querySelector('div');
+        const label = step.querySelector('span');
+        
+        if (index < currentStep - 1) {
+            // Completed steps (before current step)
+            circle.classList.add('bg-blue-600', 'text-white');
+            circle.classList.remove('bg-gray-200', 'text-gray-600');
+            label.classList.add('text-blue-600');
+            label.classList.remove('text-gray-500');
+        } else if (index === currentStep - 1) {
+            // Current step
+            circle.classList.add('bg-blue-600', 'text-white');
+            circle.classList.remove('bg-gray-200', 'text-gray-600');
+            label.classList.add('text-blue-600');
+            label.classList.remove('text-gray-500');
+        } else {
+            // Future steps (after current step)
+            circle.classList.add('bg-gray-200', 'text-gray-600');
+            circle.classList.remove('bg-blue-600', 'text-white');
+            label.classList.add('text-gray-500');
+            label.classList.remove('text-blue-600');
+        }
+    });
+}
 
-        // Navigation between steps
-        document.getElementById('backStep2').addEventListener('click', function() {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step1').classList.remove('hidden');
-            
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('bg-blue-600', 'bg-gray-200');
-            document.querySelectorAll('.flex-col')[1].querySelector('div').classList.replace('text-white', 'text-gray-600');
-            document.querySelectorAll('.flex-col')[1].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
+// Reference number verification
+document.getElementById('nextStep1').addEventListener('click', function() {
+    const referenceNumber = document.getElementById('referenceNumber').value.trim().toUpperCase();
+    const errorElement = document.getElementById('referenceError');
+    
+    if (mockDatabase[referenceNumber]) {
+        errorElement.classList.add('hidden');
+        
+        // Fill in user details
+        const userData = mockDatabase[referenceNumber];
+        document.getElementById('fullName').value = userData.fullName;
+        document.getElementById('email').value = userData.email;
+        document.getElementById('phone').value = userData.phone;
+        document.getElementById('address').value = userData.address;
+        
+        // Set service information
+        document.getElementById('serviceTypeDisplay').textContent = userData.serviceType;
+        document.getElementById('serviceTitle').textContent = userData.serviceDetails.title;
+        document.getElementById('serviceDescription').textContent = userData.serviceDetails.description;
+        
+        // Update requirements list
+        const requirementsList = document.querySelector('#step2 ul');
+        requirementsList.innerHTML = '';
+        userData.serviceDetails.requirements.forEach(req => {
+            const li = document.createElement('li');
+            li.textContent = req;
+            requirementsList.appendChild(li);
         });
+        
+        document.getElementById('displayReferenceNumber').textContent = referenceNumber;
+        
+        // Show next step
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+        
+        // Update progress to step 2
+        updateProgressSteps(2);
+    } else {
+        errorElement.classList.remove('hidden');
+    }
+});
 
-        document.getElementById('nextStep2').addEventListener('click', function() {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-            
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[2].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
-            document.querySelectorAll('.flex-col')[2].querySelector('div').classList.replace('text-gray-600', 'text-white');
-            document.querySelectorAll('.flex-col')[2].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
-        });
+// Navigation between steps
+document.getElementById('backStep2').addEventListener('click', function() {
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step1').classList.remove('hidden');
+    updateProgressSteps(1);
+});
 
-        document.getElementById('backStep3').addEventListener('click', function() {
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
-            
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[2].querySelector('div').classList.replace('bg-blue-600', 'bg-gray-200');
-            document.querySelectorAll('.flex-col')[2].querySelector('div').classList.replace('text-white', 'text-gray-600');
-            document.querySelectorAll('.flex-col')[2].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
-        });
+document.getElementById('nextStep2').addEventListener('click', function() {
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+    updateProgressSteps(3);
+});
 
-        document.getElementById('nextStep3').addEventListener('click', function() {
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step4').classList.remove('hidden');
-            
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('bg-gray-200', 'bg-blue-600');
-            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('text-gray-600', 'text-white');
-            document.querySelectorAll('.flex-col')[3].querySelector('span').classList.replace('text-gray-500', 'text-blue-600');
-        });
+document.getElementById('backStep3').addEventListener('click', function() {
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+    updateProgressSteps(2);
+});
 
-        document.getElementById('backStep4').addEventListener('click', function() {
-            document.getElementById('step4').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-            
-            // Update progress steps
-            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('bg-blue-600', 'bg-gray-200');
-            document.querySelectorAll('.flex-col')[3].querySelector('div').classList.replace('text-white', 'text-gray-600');
-            document.querySelectorAll('.flex-col')[3].querySelector('span').classList.replace('text-blue-600', 'text-gray-500');
-        });
+document.getElementById('nextStep3').addEventListener('click', function() {
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById('step4').classList.remove('hidden');
+    updateProgressSteps(4);
+});
+
+document.getElementById('backStep4').addEventListener('click', function() {
+    document.getElementById('step4').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+    updateProgressSteps(3);
+});
 
         document.getElementById('submitAppointment').addEventListener('click', function() {
             // Check if terms are agreed
