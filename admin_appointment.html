@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | JuanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .sidebar-item.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+        }
+        .appointment-row:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .status-confirmed {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .status-completed {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 bg-white shadow-md">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center space-x-2">
+                    <img src="assets/juanq_dashboard.png" alt="JuanQueue Logo" class="h-8 w-8 object-contain">
+                    <h1 class="text-xl font-bold text-gray-800">Brgy. Admin</h1>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Barangay Agapito Del Rosario</p>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="admin.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-tachometer-alt mr-3 text-blue-600"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_appointment.html" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-calendar-check mr-3 text-blue-600"></i>
+                            <span>Appointments</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">12</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-file-alt mr-3 text-blue-600"></i>
+                            <span>Document Requests</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-users mr-3 text-blue-600"></i>
+                            <span>Queue Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-chart-bar mr-3 text-blue-600"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-cog mr-3 text-blue-600"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <div class="flex items-center p-3 rounded-lg bg-blue-50">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Admin profile">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">Barangay Staff</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Appointments</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bell"></i>
+                            <span class="sr-only">Notifications</span>
+                        </button>
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="sr-only">Help</span>
+                        </button>
+                        <button id="logoutBtn" class="p-2 rounded-full text-gray-500 hover:text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="sr-only">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Appointments Content -->
+            <main class="p-6">
+                <!-- Filters and Actions -->
+                <div class="bg-white rounded-lg shadow mb-6 p-4">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="relative">
+                                <input type="text" placeholder="Search appointments..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full md:w-64">
+                                <div class="absolute left-3 top-2.5 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                            <button class="p-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50">
+                                <i class="fas fa-filter"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option>All Status</option>
+                                <option>Pending</option>
+                                <option>Confirmed</option>
+                                <option>Cancelled</option>
+                                <option>Completed</option>
+                            </select>
+                            
+                            <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+                                <option>All Services</option>
+                                <option>Barangay Clearance</option>
+                                <option>Certificate of Indigency</option>
+                                <option>Residency Certificate</option>
+                                <option>Health Certificate</option>
+                            </select>
+                            
+                            <!-- <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-plus mr-2"></i> New Appointment
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Appointments Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-800">Upcoming Appointments</h3>
+                        <div class="text-sm text-gray-500">
+                            Showing <span class="font-medium">1-10</span> of <span class="font-medium">24</span>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resident</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Appointment 1 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1001</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Maria Santos</div>
+                                                <div class="text-sm text-gray-500">maria.santos@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Certificate of Indigency</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 15, 2025</div>
+                                        <div class="text-gray-500">10:15 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-confirmed">Confirmed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-green-600 hover:text-green-900">Confirm</button>
+                                    </td>
+                                </tr>
+                                <!-- Appointment 2 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1002</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Juan Dela Cruz</div>
+                                                <div class="text-sm text-gray-500">juan.delacruz@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Barangay Clearance</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 15, 2025</div>
+                                        <div class="text-gray-500">9:30 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-confirmed">Confirmed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-green-600 hover:text-green-900">Confirm</button>
+                                    </td>
+                                </tr>
+                                
+
+                                
+                                <!-- Appointment 3 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1003</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/67.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Pedro Reyes</div>
+                                                <div class="text-sm text-gray-500">pedro.reyes@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Residency Certificate</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 15, 2025</div>
+                                        <div class="text-gray-500">11:00 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-pending">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-green-600 hover:text-green-900">Confirm</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Appointment 4 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1004</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/28.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Ana Torres</div>
+                                                <div class="text-sm text-gray-500">ana.torres@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Barangay Clearance</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 15, 2025</div>
+                                        <div class="text-gray-500">1:30 PM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-confirmed">Confirmed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-green-600 hover:text-green-900">Confirm</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Appointment 5 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1005</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/75.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Luis Garcia</div>
+                                                <div class="text-sm text-gray-500">luis.garcia@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Health Certificate</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 15, 2025</div>
+                                        <div class="text-gray-500">2:45 PM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-cancelled">Cancelled</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900" disabled>Confirm</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Appointment 6 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1006</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/63.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Sofia Rodriguez</div>
+                                                <div class="text-sm text-gray-500">sofia.rodriguez@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Business Permit</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 16, 2025</div>
+                                        <div class="text-gray-500">9:00 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-pending">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-green-600 hover:text-green-900">Confirm</button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Appointment 7 -->
+                                <tr class="appointment-row">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JQ-2023-1007</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/82.jpg" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Carlos Lim</div>
+                                                <div class="text-sm text-gray-500">carlos.lim@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Barangay Clearance</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-gray-900">May 16, 2025</div>
+                                        <div class="text-gray-500">10:30 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-badge status-completed">Completed</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                        <button class="text-gray-600 hover:text-gray-900" disabled>Confirm</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Previous
+                            </a>
+                            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next
+                            </a>
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">7</span> of <span class="font-medium">24</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Previous</span>
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                    <a href="#" aria-current="page" class="z-10 bg-blue-50 border-blue-500 text-blue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        1
+                                    </a>
+                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        2
+                                    </a>
+                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        3
+                                    </a>
+                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                        ...
+                                    </span>
+                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        8
+                                    </a>
+                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <span class="sr-only">Next</span>
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calendar View (Optional) -->
+                <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-800">Calendar View</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-7 gap-1 mb-2">
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Sun</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Mon</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Tue</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Wed</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Thu</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Fri</div>
+                            <div class="text-center text-sm font-medium text-gray-500 py-2">Sat</div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1">
+                            <!-- Calendar days would be generated here -->
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs text-gray-400">30</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">1</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">2</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">3</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">4</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">5</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">6</div>
+                            </div>
+                            <!-- Next row -->
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">7</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">8</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">9</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1 bg-blue-50">
+                                <div class="text-right text-xs">10</div>
+                                <div class="text-xs truncate text-blue-600">3 Appointments</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">11</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">12</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">13</div>
+                            </div>
+                            <!-- Next row -->
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">14</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1 bg-blue-100">
+                                <div class="text-right text-xs font-bold">15</div>
+                                <div class="text-xs truncate text-blue-800">7 Appointments</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1 bg-blue-50">
+                                <div class="text-right text-xs">16</div>
+                                <div class="text-xs truncate text-blue-600">4 Appointments</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">17</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">18</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">19</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">20</div>
+                            </div>
+                            <!-- Next row -->
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">21</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">22</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">23</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">24</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">25</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">26</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">27</div>
+                            </div>
+                            <!-- Next row -->
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">28</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">29</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs">30</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs text-gray-400">1</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs text-gray-400">2</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs text-gray-400">3</div>
+                            </div>
+                            <div class="h-16 border border-gray-100 p-1">
+                                <div class="text-right text-xs text-gray-400">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if(confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.sidebar-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                // Add active class to clicked item
+                this.classList.add('active');
+            });
+        });
+
+        // Confirm appointment button functionality
+        document.querySelectorAll('button:contains("Confirm")').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const statusBadge = row.querySelector('.status-badge');
+                
+                // Update status to confirmed
+                statusBadge.className = 'status-badge status-confirmed';
+                statusBadge.textContent = 'Confirmed';
+                
+                // Disable the confirm button
+                this.disabled = true;
+                this.className = 'text-gray-600 hover:text-gray-900';
+                this.textContent = 'Confirmed';
+                
+                // Show a success message
+                alert('Appointment confirmed successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

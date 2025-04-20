@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Requests | JuanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .sidebar-item.active {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .status-approved {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 bg-white shadow-md">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center space-x-2">
+                    <img src="assets/juanq_dashboard.png" alt="JuanQueue Logo" class="h-8 w-8 object-contain">
+                    <h1 class="text-xl font-bold text-gray-800">Brgy. Admin</h1>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Barangay Agapito Del Rosario</p>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="admin.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-tachometer-alt mr-3 text-blue-600"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_appointment.html" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-calendar-check mr-3 text-blue-600"></i>
+                            <span>Appointments</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">12</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_document_requests.html" class="sidebar-item active flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-file-alt mr-3 text-blue-600"></i>
+                            <span>Document Requests</span>
+                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-users mr-3 text-blue-600"></i>
+                            <span>Queue Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-chart-bar mr-3 text-blue-600"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-cog mr-3 text-blue-600"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <div class="flex items-center p-3 rounded-lg bg-blue-50">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Admin profile">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">Barangay Staff</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Document Requests</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bell"></i>
+                            <span class="sr-only">Notifications</span>
+                        </button>
+                        <button class="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="sr-only">Help</span>
+                        </button>
+                        <button id="logoutBtn" class="p-2 rounded-full text-gray-500 hover:text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="sr-only">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Document Requests Content -->
+            <main class="p-6">
+                <!-- Filters and Actions -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                        <div class="flex items-center space-x-4">
+                            <div class="relative">
+                                <select class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>All Documents</option>
+                                    <option>Barangay Clearance</option>
+                                    <option>Certificate of Indigency</option>
+                                    <option>Residency Certificate</option>
+                                    <option>Business Permit</option>
+                                    <option>Others</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="relative">
+                                <select class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option>All Status</option>
+                                    <option>Pending</option>
+                                    <option>Approved</option>
+                                    <option>Rejected</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="relative">
+                                <input type="text" placeholder="Search requests..." class="bg-gray-50 border border-gray-300 text-gray-700 py-2 px-4 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full md:w-64">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                            </div>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition flex items-center">
+                                <i class="fas fa-filter mr-2"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document Requests Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Document Request Card 1 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Certificate of Indigency</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-001</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-approved">
+                                    Approved
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Maria Santos</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0917-890-1234</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 14, 2023 - 02:15 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">Scholarship Application</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition" disabled>
+                                    <i class="fas fa-check mr-2"></i> Approved
+                                </button>
+                                <button class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-print mr-2"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Document Request Card 2 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Barangay Clearance</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-002</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-pending">
+                                    Pending
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Juan Dela Cruz</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0912-345-6789</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 15, 2023 - 09:30 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">Job Application Requirement</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition approve-btn">
+                                    Approve
+                                </button>
+                                <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition reject-btn">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    
+                    <!-- Document Request Card 3 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Residency Certificate</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-003</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-rejected">
+                                    Rejected
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Pedro Reyes</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0918-765-4321</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 13, 2023 - 10:45 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">Bank Loan Requirement</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Reason for Rejection</p>
+                                    <p class="text-gray-800">Incomplete supporting documents</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-redo mr-2"></i> Re-evaluate
+                                </button>
+                                <button class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-envelope mr-2"></i> Notify
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Request Card 4 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Business Permit</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-004</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-pending">
+                                    Pending
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Ana Torres</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0919-876-5432</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 12, 2023 - 03:20 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">New Sari-sari Store</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition approve-btn">
+                                    Approve
+                                </button>
+                                <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition reject-btn">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Request Card 5 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Barangay Clearance</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-005</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-pending">
+                                    Pending
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Luis Garcia</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0915-432-6789</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 11, 2023 - 11:10 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">NBI Clearance Requirement</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition approve-btn">
+                                    Approve
+                                </button>
+                                <button class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition reject-btn">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Request Card 6 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 document-card">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Certificate of Indigency</h3>
+                                    <p class="text-sm text-gray-500">Request #DR-2023-006</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-approved">
+                                    Approved
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Requested by</p>
+                                    <p class="text-gray-800">Sofia Martinez</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Contact</p>
+                                    <p class="text-gray-800">0916-789-0123</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Date Requested</p>
+                                    <p class="text-gray-800">Nov 10, 2023 - 04:30 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">Purpose</p>
+                                    <p class="text-gray-800">Medical Assistance</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 flex space-x-2">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition" disabled>
+                                    <i class="fas fa-check mr-2"></i> Approved
+                                </button>
+                                <button class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                                    <i class="fas fa-print mr-2"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="bg-white rounded-lg shadow p-4 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">6</span> of <span class="font-medium">24</span> requests
+                        </p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <button class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-blue-600 text-sm font-medium text-white">
+                            1
+                        </button>
+                        <button class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            2
+                        </button>
+                        <button class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            3
+                        </button>
+                        <button class="relative inline-flex items-center px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for Rejection Reason -->
+    <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Reason for Rejection</h3>
+                <button id="closeModal" class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-4">
+                <label for="rejectReason" class="block text-sm font-medium text-gray-700 mb-2">Please specify the reason for rejecting this request:</label>
+                <textarea id="rejectReason" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter reason..."></textarea>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelReject" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button id="confirmReject" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                    Confirm Rejection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if(confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.sidebar-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                // Add active class to clicked item
+                this.classList.add('active');
+            });
+        });
+
+        // Document request approval/rejection logic
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.document-card');
+                const statusBadge = card.querySelector('span');
+                
+                // Update status
+                statusBadge.textContent = 'Approved';
+                statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-approved';
+                
+                // Update buttons
+                const buttonsContainer = card.querySelector('.mt-6');
+                buttonsContainer.innerHTML = `
+                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition" disabled>
+                        <i class="fas fa-check mr-2"></i> Approved
+                    </button>
+                    <button class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                        <i class="fas fa-print mr-2"></i> Print
+                    </button>
+                `;
+                
+                // Show success message
+                alert('Document request has been approved successfully!');
+            });
+        });
+
+        // Rejection modal handling
+        const rejectModal = document.getElementById('rejectModal');
+        let currentRejectCard = null;
+
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentRejectCard = this.closest('.document-card');
+                rejectModal.classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            rejectModal.classList.add('hidden');
+        });
+
+        document.getElementById('cancelReject').addEventListener('click', function() {
+            rejectModal.classList.add('hidden');
+        });
+
+        document.getElementById('confirmReject').addEventListener('click', function() {
+            const reason = document.getElementById('rejectReason').value.trim();
+            if (reason === '') {
+                alert('Please provide a reason for rejection.');
+                return;
+            }
+
+            if (currentRejectCard) {
+                const statusBadge = currentRejectCard.querySelector('span');
+                
+                // Update status
+                statusBadge.textContent = 'Rejected';
+                statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium status-rejected';
+                
+                // Add reason to card if not already present
+                let reasonSection = currentRejectCard.querySelector('.reason-section');
+                if (!reasonSection) {
+                    const purposeSection = currentRejectCard.querySelector('div:has(> p.text-sm.font-medium.text-gray-500:contains("Purpose"))');
+                    if (purposeSection) {
+                        reasonSection = document.createElement('div');
+                        reasonSection.innerHTML = `
+                            <p class="text-sm font-medium text-gray-500">Reason for Rejection</p>
+                            <p class="text-gray-800">${reason}</p>
+                        `;
+                        purposeSection.parentNode.insertBefore(reasonSection, purposeSection.nextSibling);
+                    }
+                }
+                
+                // Update buttons
+                const buttonsContainer = currentRejectCard.querySelector('.mt-6');
+                buttonsContainer.innerHTML = `
+                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                        <i class="fas fa-redo mr-2"></i> Re-evaluate
+                    </button>
+                    <button class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                        <i class="fas fa-envelope mr-2"></i> Notify
+                    </button>
+                `;
+                
+                // Clear and hide modal
+                document.getElementById('rejectReason').value = '';
+                rejectModal.classList.add('hidden');
+                
+                // Show success message
+                alert('Document request has been rejected successfully!');
+            }
+        });
+
+        // Close modal when clicking outside
+        rejectModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                rejectModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
